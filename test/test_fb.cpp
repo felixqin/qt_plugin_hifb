@@ -89,15 +89,11 @@ int main(int argc, char* argv[])
     }
 #endif
 
-    if (ioctl(fd, FBIOGET_FSCREENINFO, &finfo) != 0) {
-        perror("get fix screen info failed!\n");
-    }
-
     if (ioctl(fd, FBIOGET_VSCREENINFO, &vinfo)) {
         perror("get virtual screen info failed!\n");
     }
 
-#if 0
+#if 1
 	vinfo.xres_virtual = 720;
 	vinfo.yres_virtual = 576;
 	vinfo.xres = 720;
@@ -113,6 +109,10 @@ int main(int argc, char* argv[])
     }
 #endif
 
+    if (ioctl(fd, FBIOGET_FSCREENINFO, &finfo) != 0) {
+        perror("get fix screen info failed!\n");
+    }
+
 	printf("finfo.line_length: %d\n", finfo.line_length);
 	printf("vinfo.res        : %d, %d\n", vinfo.xres, vinfo.yres);
 	printf("vinfo.offset     : %d, %d\n", vinfo.xoffset, vinfo.yoffset);
@@ -123,14 +123,14 @@ int main(int argc, char* argv[])
 	printf("frame buffer(%p) size(%d)\n", data, data_size);
 
 	//sleep(1);
-	memset(data, 0x80, data_size);
+	//memset(data, 0x80, data_size);
 	//sleep(1);
 
-	int w = 720;//vinfo.xres;
-	int h = 576;//vinfo.yres;
+	int w = vinfo.xres;
+	int h = vinfo.yres;
 	int pixelbytes = 2;
-	int linebytes = 720;//finfo.line_length;
-	//draw_image(data, w, h, linebytes, pixelbytes);
+	int linebytes = finfo.line_length;
+	draw_image(data, w, h, linebytes, pixelbytes);
 #if 0
 	for (int y = 0; y < 320; ++y) {
 		draw_hline(data, w, h, linebytes, pixelbytes, y, HIFB_RED_1555);
