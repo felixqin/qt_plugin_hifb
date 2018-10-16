@@ -5,13 +5,33 @@
 # https://blog.csdn.net/Cherry_Lover/article/details/80323497
 
 
+cd `dirname $0`
+THISDIR=`pwd`
+TOPDIR=${THISDIR}/../
+OUTDIR=${TOPDIR}/out/
+
+
+SRCDIR=qt-everywhere-src-5.11.2
+PLATFORM=linux-arm-hisiv500-uclibcgnueabi-g++
+DISTNAME=qt-5.11.2-arm-hisiv500-linux-uclibcgnueabi
+
+
+if [ ! -d ${SRCDIR} ]; then
+    echo "please download qt5 source code!"
+    exit 1
+fi
+
+
+cd ${SRCDIR}
+cp -a ../${PLATFORM} ./qtbase/mkspecs
+
 
 ./configure -v -recheck-all \
--prefix $HOME/opt/qt-5.11.1-arm-hisiv500-linux-uclibcgnueabi \
+-prefix ${OUTDIR}/${DISTNAME} \
 -release \
 -opensource -confirm-license \
 -make libs \
--xplatform linux-arm-hisiv500-uclibcgnueabi-g++ \
+-xplatform ${PLATFORM} \
 -optimized-qmake \
 -linuxfb    \
 -no-pch \
@@ -35,8 +55,12 @@
 -no-separate-debug-info
 
 
-# ./configure-prefix /home/chenhui/qt-5.5.1 -release -opensource -confirm-license 
+# ./configure -prefix /home/chenhui/qt-5.5.1 -release -opensource -confirm-license 
 # -static-qt-zlib -qt-libpng -qt-libjpeg -qt-freetype 
 # -no-pch -no-avx -no-openssl-no-cups -no-dbus
 # -platform linux-g++ -xplatform linux-hisiv600-linux-g++-no-opengl -no-glib
+
+
+gmake -j4
+gmake install
 
