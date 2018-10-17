@@ -12,6 +12,7 @@ OUTDIR=${TOPDIR}/out/
 
 
 SRCDIR=qt-everywhere-src-5.11.2
+PATCHDIR=patches-qt-5.11.2
 PLATFORM=linux-arm-hisiv500-uclibcgnueabi-g++
 DISTNAME=qt-5.11.2-arm-hisiv500-linux-uclibcgnueabi
 
@@ -22,9 +23,11 @@ if [ ! -d ${SRCDIR} ]; then
 fi
 
 
-cd ${SRCDIR}
-cp -a ../${PLATFORM} ./qtbase/mkspecs
+echo "patch ${PATCHDIR} ..."
+${PATCHDIR}/patch.sh || exit 1
 
+
+cd ${SRCDIR}
 
 ./configure -v -recheck-all \
 -prefix ${OUTDIR}/${DISTNAME} \
@@ -33,7 +36,7 @@ cp -a ../${PLATFORM} ./qtbase/mkspecs
 -make libs \
 -xplatform ${PLATFORM} \
 -optimized-qmake \
--linuxfb    \
+-qpa linuxfb    \
 -no-pch \
 -no-evdev   \
 -no-accessibility   \
@@ -52,7 +55,8 @@ cp -a ../${PLATFORM} ./qtbase/mkspecs
 -no-cups \
 -no-glib \
 -no-pkg-config \
--no-separate-debug-info
+-no-separate-debug-info \
+|| exit 2
 
 
 # ./configure -prefix /home/chenhui/qt-5.5.1 -release -opensource -confirm-license 
