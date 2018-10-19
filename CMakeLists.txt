@@ -1,0 +1,38 @@
+
+cmake_minimum_required(VERSION 2.8.11)
+
+
+project(qt-hifb)
+
+
+set(PRODUCT_OUTDIR ${CMAKE_CURRENT_SOURCE_DIR}/out)
+set(PRODUCT_TOOLCHAIN arm-hisiv500-linux-uclibcgnueabi)
+set(PRODUCT_HICHIP HI3519_V101)
+
+
+# path to compiler and utilities
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+# specify the cross compiler
+set(CMAKE_C_COMPILER ${PRODUCT_TOOLCHAIN}-gcc)
+set(CMAKE_CXX_COMPILER ${PRODUCT_TOOLCHAIN}-g++)
+set(CMAKE_STRIP ${PRODUCT_TOOLCHAIN}-strip)
+
+# Name of the target platform
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+# Version of the system
+set(CMAKE_SYSTEM_VERSION 1)
+
+
+add_definitions(-Wall -O2 -Os)
+add_definitions(-Wno-unused-local-typedefs)
+add_definitions(-Wstrict-aliasing -Wwrite-strings)
+add_definitions(-D_REENTRANT -msoft-float)
+
+
+add_subdirectory(hifb)
+
