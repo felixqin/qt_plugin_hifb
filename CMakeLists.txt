@@ -5,9 +5,11 @@ cmake_minimum_required(VERSION 2.8.11)
 project(qt-hifb)
 
 
-set(PRODUCT_OUTDIR ${CMAKE_CURRENT_SOURCE_DIR}/out)
 set(PRODUCT_TOOLCHAIN arm-hisiv500-linux-uclibcgnueabi)
 set(PRODUCT_HICHIP HI3519_V101)
+set(PRODUCT_TOPDIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(PRODUCT_OUTDIR ${CMAKE_CURRENT_SOURCE_DIR}/out/${PRODUCT_HICHIP})
+set(PRODUCT_HIMPPDIR ${PRODUCT_TOPDIR}/mpp/${PRODUCT_HICHIP})
 
 
 # path to compiler and utilities
@@ -35,4 +37,4 @@ add_definitions(-D_REENTRANT -msoft-float)
 
 
 add_subdirectory(hifb)
-
+add_subdirectory(test)

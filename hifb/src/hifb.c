@@ -145,7 +145,6 @@ static int HIFB_OpenFB(VO_LAYER VoLayer, HI_U32 u32Width, HI_U32 u32Height)
     int fd;
     struct fb_fix_screeninfo fix;
     struct fb_var_screeninfo var;
-    HIFB_ALPHA_S stAlpha = {HI_FALSE};
     HIFB_POINT_S stPoint = {0, 0};
     HI_CHAR file[12] = "/dev/fb0";
     HI_BOOL bShow;
@@ -247,7 +246,7 @@ static int HIFB_OpenFB(VO_LAYER VoLayer, HI_U32 u32Width, HI_U32 u32Height)
     }
 
     /* 7. map the physical video memory for user use */
-
+    bShow = HI_TRUE;
     if (ioctl(fd, FBIOPUT_SHOW_HIFB, &bShow) < 0)
     {
         SAMPLE_PRT("FBIOPUT_SHOW_HIFB failed!\n");
