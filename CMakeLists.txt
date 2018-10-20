@@ -21,6 +21,8 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_C_COMPILER ${PRODUCT_TOOLCHAIN}-gcc)
 set(CMAKE_CXX_COMPILER ${PRODUCT_TOOLCHAIN}-g++)
 set(CMAKE_STRIP ${PRODUCT_TOOLCHAIN}-strip)
+set(CMAKE_AR ${PRODUCT_TOOLCHAIN}-ar)
+set(CMAKE_RANLIB ${PRODUCT_TOOLCHAIN}-ranlib)
 
 # Name of the target platform
 set(CMAKE_SYSTEM_NAME Linux)
@@ -38,3 +40,4 @@ add_definitions(-D_REENTRANT -msoft-float)
 
 add_subdirectory(hifb)
 add_subdirectory(test)
+add_subdirectory(qt5)

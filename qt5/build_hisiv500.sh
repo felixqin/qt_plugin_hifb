@@ -15,6 +15,7 @@ SRCDIR=qt-everywhere-src-5.11.2
 PATCHDIR=patches-qt-5.11.2
 PLATFORM=linux-arm-hisiv500-uclibcgnueabi-g++
 DISTNAME=qt-5.11.2-arm-hisiv500-linux-uclibcgnueabi
+HICHIP=HI3519_V101
 
 
 if [ ! -d ${SRCDIR} ]; then
@@ -56,6 +57,7 @@ cd ${SRCDIR}
 -no-glib \
 -no-pkg-config \
 -no-separate-debug-info \
+-I${TOPDIR}/hifb/include -L${TOPDIR}/hifb/lib/${HICHIP} \
 || exit 2
 
 
@@ -65,6 +67,6 @@ cd ${SRCDIR}
 # -platform linux-g++ -xplatform linux-hisiv600-linux-g++-no-opengl -no-glib
 
 
-gmake -j4
-gmake install
+gmake -j`nproc` || exit 3
+gmake install || exit 4
 
