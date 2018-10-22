@@ -2,9 +2,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 
 
-project(qt-hifb)
-
-
 set(PRODUCT_TOOLCHAIN arm-hisiv500-linux-uclibcgnueabi)
 set(PRODUCT_HICHIP HI3519_V101)
 set(PRODUCT_TOPDIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -38,6 +35,16 @@ add_definitions(-Wstrict-aliasing -Wwrite-strings)
 add_definitions(-D_REENTRANT -msoft-float)
 
 
+project(qt-hifb)
+
+
+
+SET(QT_MISSING True)
+set(CMAKE_PREFIX_PATH "${PRODUCT_TOPDIR}/out/qt-5.11.2-arm-hisiv500-linux-uclibcgnueabi")
+
+
 add_subdirectory(hifb)
 add_subdirectory(test)
 add_subdirectory(qt5)
+add_subdirectory(demo)
+
