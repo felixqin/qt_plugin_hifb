@@ -11,7 +11,7 @@ add_custom_target(qt5_download
 
 add_custom_target(qt5_sdk
         sh ./build_hisiv500.sh
-        DEPENDS hifb_single qt5_download
+        DEPENDS hifb qt5_download
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "build qt5 sdk"
         SOURCES build_hisiv500.sh

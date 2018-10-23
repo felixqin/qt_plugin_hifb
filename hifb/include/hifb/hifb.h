@@ -6,8 +6,8 @@
 extern "C" {
 #endif
 
-int HIFB_Open(int vout, const char* interface);
-void HIFB_Close(int vout, int fd);
+int HIFB_Open(const char* param);
+void HIFB_Close(int fd);
 
 
 #ifdef __cplusplus

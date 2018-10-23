@@ -23,7 +23,7 @@ qtHaveModule(kms_support-private) {
     HEADERS += qlinuxfbdrmscreen.h
 }
 
-LIBS += -lhifb_single -ldl
+LIBS += -lhifb -ldl
 
 OTHER_FILES += linuxfb.json
 

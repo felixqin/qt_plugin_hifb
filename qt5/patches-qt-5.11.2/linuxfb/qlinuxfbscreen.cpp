@@ -298,8 +298,11 @@ QLinuxFbScreen::~QLinuxFbScreen()
     if (mFbFd != -1) {
         if (mMmap.data)
             munmap(mMmap.data - mMmap.offset, mMmap.size);
-        //close(mFbFd);
-        HIFB_Close(0, mFbFd);
+        if (mHiFbParam.isEmpty()) {
+            close(mFbFd);
+        } else {
+            HIFB_Close(mFbFd);
+        }
     }
 
     if (mTtyFd != -1)
@@ -311,6 +314,7 @@ QLinuxFbScreen::~QLinuxFbScreen()
 bool QLinuxFbScreen::initialize()
 {
     QRegularExpression ttyRx(QLatin1String("tty=(.*)"));
+    QRegularExpression hifbRx(QLatin1String("hifb=(.*)"));
     QRegularExpression fbRx(QLatin1String("fb=(.*)"));
     QRegularExpression mmSizeRx(QLatin1String("mmsize=(\\d+)x(\\d+)"));
     QRegularExpression sizeRx(QLatin1String("size=(\\d+)x(\\d+)"));
@@ -334,6 +338,8 @@ bool QLinuxFbScreen::initialize()
             userGeometry.setTopLeft(QPoint(match.captured(1).toInt(), match.captured(2).toInt()));
         else if (arg.contains(ttyRx, &match))
             ttyDevice = match.captured(1);
+        else if (arg.contains(hifbRx, &match))
+            mHiFbParam = match.captured(1);
         else if (arg.contains(fbRx, &match))
             fbDevice = match.captured(1);
     }
@@ -349,8 +355,11 @@ bool QLinuxFbScreen::initialize()
     }
 
     // Open the device
-    //mFbFd = openFramebufferDevice(fbDevice);
-    mFbFd = HIFB_Open(0, "CVBS");
+    if (mHiFbParam.isEmpty()) {
+        mFbFd = openFramebufferDevice(fbDevice);
+    } else {
+        mFbFd = HIFB_Open(mHiFbParam.toLatin1().constData());
+    }
     if (mFbFd == -1) {
         qErrnoWarning(errno, "Failed to open framebuffer %s", qPrintable(fbDevice));
         return false;

@@ -64,6 +64,7 @@ private:
     QStringList mArgs;
     int mFbFd;
     int mTtyFd;
+    QString mHiFbParam;
 
     QImage mFbScreenImage;
     int mBytesPerLine;

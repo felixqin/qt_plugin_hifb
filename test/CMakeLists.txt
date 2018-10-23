@@ -14,6 +14,5 @@ add_executable(test_hifb test_hifb.cpp)
 
 target_link_libraries(test_hifb
         hifb
-        mpi upvqe dnvqe VoiceEngine
         pthread rt dl
         )
